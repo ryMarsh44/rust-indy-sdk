@@ -104,9 +104,13 @@ impl ClosureHandler {
         }
 
         extern "C" fn _callback(command_handle: IndyHandle, err: ErrorCode, c_str: *const c_char) {
+            println!("in rust-indy-sdk callback");
             let mut callbacks = CALLBACKS.lock().unwrap();
+            println!("in rust-indy-sdk lock");
             let mut cb = callbacks.remove(&command_handle).unwrap();
+            println!("in rust-indy-sdk remove");
             let metadata = rust_str!(c_str);
+            println!("in rust-indy-sdk rust_str");
             cb(err, metadata)
         }
 
